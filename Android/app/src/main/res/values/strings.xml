@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MsgNav</string>
     <string name="home_search_text">Where are you going?</string>
+    <string name="app_title">MsgNav</string>
 </resources>
