@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 
-class SearchRecyclerViewAdapter(private val context: Context, private val data: Array<String>) :
+class SearchRecyclerViewAdapter(private val context: Context, private val data: Array<String>, private val listener: OnDataChangedListener) :
     RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>() {
+    interface OnDataChangedListener {
+        fun onDataChanged(data: Array<String>)
+    }
 
     class ViewHolder(val editText: EditText) : RecyclerView.ViewHolder(editText)
 
@@ -42,6 +45,7 @@ class SearchRecyclerViewAdapter(private val context: Context, private val data: 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 data[position] = s.toString()
+                listener.onDataChanged(data)
             }
         })
     }
