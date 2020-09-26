@@ -1,6 +1,7 @@
 package com.example.msgnav
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -41,6 +42,18 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         // TODO: Send the SMS Message
         val locations: Array<String> = viewAdapter.getItems()
 
+        val intent = Intent(this, FullDirectionsActivity::class.java)
+        // TODO: Update this location value to the proper addresses returned by the server
+        intent.putExtra("locations", locations)
+        // TODO: Pass Array<Direction> as an extra to this activity (use name "directions")
+        intent.putExtra("directions", Array(20){ i -> Direction(R.drawable.search_icon,  "Turn left at Thomas Street Middle School", "100 m") })
+
+        if (this.intent.getBooleanExtra("new_activity", true)) {
+            startActivity(intent)
+        } else {
+            setResult(RESULT_OK, intent)
+        }
+
         finish()
     }
 
@@ -48,7 +61,7 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         updateDoneButton(data)
     }
 
-    fun updateDoneButton(data: Array<String>) {
+    private fun updateDoneButton(data: Array<String>) {
         for (s: String in data) {
             if (s.isEmpty()) {
                 doneButton.isEnabled = false
