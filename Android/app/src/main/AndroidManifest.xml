@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchActivity"/>
-        <activity android:name=".SendSms"/>
         <activity android:name=".FullDirectionsActivity"/>
         <receiver android:name=".ReceiveSms">
             <intent-filter android:priority="1000" >
