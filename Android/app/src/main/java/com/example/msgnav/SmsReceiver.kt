@@ -9,13 +9,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 
-class ReceiveSms : BroadcastReceiver(){
+class SmsReceiver : BroadcastReceiver() {
     private lateinit var locations: Array<String>
 
-    override fun onReceive(context: Context?, intent1: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 
 //        val bundle = intent.getExtras();
+
+        Toast.makeText(context, "Received a message", Toast.LENGTH_LONG).show()
 
         val intent = Intent(context, FullDirectionsActivity::class.java)
 
@@ -28,7 +30,6 @@ class ReceiveSms : BroadcastReceiver(){
             if (context != null) {
                 context.startActivity(intent)
             }
-        Toast.makeText(context, "Received a message", Toast.LENGTH_LONG).show()
 //        } else {
 //            setResult(RESULT_OK, intent)
 //        }
