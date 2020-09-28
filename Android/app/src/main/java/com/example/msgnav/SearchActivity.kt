@@ -1,11 +1,13 @@
 package com.example.msgnav
 
 import android.app.Activity
-import android.app.PendingIntent
-import android.content.Intent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +20,8 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var doneButton: Button
+
+    private val broadcastReceiver: BroadcastReceiver = SmsReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,17 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
 
         doneButton = findViewById(R.id.search_done_button)
         updateDoneButton(data)
+
+        val filter = IntentFilter().apply {
+            addAction("android.provider.Telephony.SMS_RECEIVED")
+        }
+        registerReceiver(broadcastReceiver, filter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        unregisterReceiver(broadcastReceiver)
     }
 
     fun onCloseButtonClick(view: View) {
@@ -44,6 +59,9 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
 
     fun onDoneButtonClick(view: View) {
         // TODO: Send the SMS Message
+
+        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
 
         val locations: Array<String> = viewAdapter.getItems()
         sendSms(locations)

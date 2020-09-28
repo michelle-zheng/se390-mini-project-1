@@ -27,15 +27,11 @@ class MainActivity : Activity() {
     }
 
     private fun checkforSmsPermission() {
-        val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+        val sendPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+        val receivePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+        if (sendPermission != PackageManager.PERMISSION_GRANTED || receivePermission != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "PERMISSION NOT GRANTED", Toast.LENGTH_SHORT).show()
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_CODE);
         }
-        val smsListener = ReceiveSms()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED")
-        registerReceiver(smsListener, intentFilter)
-        Toast.makeText(this, "make text", Toast.LENGTH_LONG).show()
     }
 }
