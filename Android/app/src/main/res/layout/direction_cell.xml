@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingVertical="20dp">
+
+        <ImageView
+            android:id="@+id/direction_cell_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:tint="@android:color/black"
+            tools:src="@drawable/search_icon"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/direction_cell_direction_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_body"
+                tools:text="These are the directions to this location wherever this location is wow"/>
+
+            <TextView
+                android:id="@+id/direction_cell_distance_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/primaryGray"
+                android:textSize="@dimen/text_size_body"
+                tools:text="100m"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/direction_cell_divider_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@color/secondaryGray"
+        android:orientation="horizontal" />
+</LinearLayout>
