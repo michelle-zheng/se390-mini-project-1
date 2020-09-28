@@ -51,8 +51,9 @@ public class SmsController {
             int index2 = msg.indexOf(" to ") + 4;
             String origin = msg.substring(index1, index2);
             String destination = msg.substring(index2);
+            String mode = "driving"; //change to receive message
             GoogleMapAPI googleMapAPI = new GoogleMapAPI();
-            ArrayList<String> directions = googleMapAPI.getDirections(origin, destination);
+            ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
 
             Sms sms = new Sms("+16478775992");
             for (int i = 0; i < directions.size() - 1; ++ i) {

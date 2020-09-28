@@ -12,7 +12,9 @@ public class GoogleMapAPITests {
         try{
             GoogleMapAPI mapApi = new GoogleMapAPI();
             //ArrayList<String> result = mapApi.getDirections("Toronto.", "Vancouver,");
-            ArrayList<String> result = mapApi.getDirections("1509 Earlston Ave.", "675 Jolly Pl,");
+            //String[] waypoints = {"University Club of Victoria"};
+            //ArrayList<String> result = mapApi.getDirections("1509 Earlston Ave.", "675 Jolly Pl,", "driving", waypoints);
+            ArrayList<String> result = mapApi.getDirections("1509 Earlston Ave.", "675 Jolly Pl,", "driving");
             for(int i = 0; i< result.size(); i++){
                 System.out.println(result.get(i));
             }
