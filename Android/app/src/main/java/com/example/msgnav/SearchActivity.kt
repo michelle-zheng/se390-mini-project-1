@@ -11,7 +11,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -23,15 +22,12 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
 
     private lateinit var doneButton: Button
 
-    public var navDone = false
-
     private val broadcastReceiver: BroadcastReceiver = SmsReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setContext(this)
-
         val data: Array<String> = intent.getStringArrayExtra("locations") ?: Array(2) { i -> ""}
 
         viewManager = LinearLayoutManager(this)
@@ -111,19 +107,11 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
             context=ctx
         }
 
-        fun displayDirections(locations: ArrayList<String>, directions: ArrayList<String>) {
+        fun displayDirections(locations: Array<String>, directions: Array<Direction>) {
             Toast.makeText(context, "COMPANION OBJECT", Toast.LENGTH_LONG)
             val intent = Intent(context, FullDirectionsActivity::class.java)
-            val locs: Array<String> = arrayOf("a", "b")
-            // Update this location value to the proper addresses returned by the server
-            intent.putExtra("locations", locs)
-            // Pass Array<Direction> as an extra to this activity (use name "directions")
-            intent.putExtra("directions", Array(directions.size / 3){ i -> lit@{
-//                Direction(R.drawable.search_icon,  "Turn left at Thomas Street Middle School", "100 m")
-                if (i % 3 != 0) return@lit
-                Direction(R.drawable.search_icon, directions[i], directions[i + 1])
-            } })
-
+            intent.putExtra("locations", locations)
+            intent.putExtra("directions",  directions)
             context.startActivity(intent)
         }
 

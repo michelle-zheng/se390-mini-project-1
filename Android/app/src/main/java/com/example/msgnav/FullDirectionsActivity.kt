@@ -50,6 +50,7 @@ class FullDirectionsActivity : Activity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        viewAdapter.setData(directions)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -7,8 +7,8 @@ import android.telephony.SmsMessage
 import android.widget.Toast
 
 class SmsReceiver : BroadcastReceiver() {
-    private var locations = arrayListOf<String>()
-    private var directions= arrayListOf<String>()
+    var locations = arrayListOf<String>()
+    var directions = arrayListOf<Direction>()
 
     private final val pdu_type = "pdus"
 
@@ -31,7 +31,9 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         if (receiveAll) {
-            SearchActivity.displayDirections(locations, directions)
+            //locations = Array<String> = arrayOf("c", "b")
+//            val directions = Array(20) { Direction(R.drawable.search_icon, "temp", "100m") }
+            SearchActivity.displayDirections(locations.toTypedArray(), directions.toTypedArray())
         }
     }
 
@@ -40,13 +42,19 @@ class SmsReceiver : BroadcastReceiver() {
             locations.addAll(msg.split(";").map { i -> i.trim() }.toTypedArray())
             return false;
         }
+        var directionString =arrayListOf<String>()
         val dirSeq = msg.split("|").map { i -> i.trim() }.toTypedArray()
-        (0..dirSeq.size - 2).map{i -> directions.addAll(
+        (0..dirSeq.size - 2).map{i -> directionString.addAll(
             dirSeq[i].split(";").map{ d -> d.trim()}.toTypedArray())}
+        
+        for(i in 0 until directionString.size step 3){
+            directions.add(Direction(R.drawable.search_icon, directionString[i], directionString[i + 1]))
+        }
 
         val sec = dirSeq.last();
         val div = sec.substring(1, sec.indexOf("/"))
         val tot = sec.substring(sec.indexOf("/") + 1, sec.indexOf(")"))
+
         return div.equals(tot)
     }
 }
