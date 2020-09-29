@@ -55,7 +55,7 @@ public class SmsController {
             GoogleMapAPI googleMapAPI = new GoogleMapAPI();
             ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
 
-            Sms sms = new Sms("+16478775992");
+            Sms sms = new Sms("+15197816145");
             for (int i = 0; i < directions.size() - 1; ++ i) {
                 sms.setMessage(directions.get(i));
                 sms.sendMessage();

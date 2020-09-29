@@ -7,7 +7,7 @@ import android.telephony.SmsMessage
 import android.widget.Toast
 
 class SmsReceiver : BroadcastReceiver() {
-    private lateinit var locations: Array<String>
+    private lateinit var locations: ArrayList<String>
     private lateinit var directions: ArrayList<String>
 
     private final val pdu_type = "pdus"
@@ -25,22 +25,28 @@ class SmsReceiver : BroadcastReceiver() {
                 val currMsg = SmsMessage.createFromPdu(pdus as ByteArray, format)
                 val phoneNumber = currMsg.getDisplayOriginatingAddress();
                 val msgBody = currMsg.getDisplayMessageBody();
-                parseDirection(msgBody);
+                receiveAll = parseDirection(msgBody)
                 Toast.makeText(context, phoneNumber + ": " + msgBody, Toast.LENGTH_LONG).show()
             }
         }
 
-        if (receiveAll && context != null) {
-            SearchActivity.displayDirect(locations, directions)
+        if (!receiveAll && context != null) {
+            SearchActivity.displayDirections(locations, directions)
         }
     }
 
-    private fun parseDirection(msg: String) {
-        if (locations == null) {
-            locations = msg.split(";").map { i -> i.trim() }.toTypedArray()
-            return;
+    private fun parseDirection(msg: String): Boolean {
+        if (locations.isEmpty()) {
+            locations.addAll(msg.split(";").map { i -> i.trim() }.toTypedArray())
+            return false;
         }
-        directions.addAll(msg.split(";").map { i -> i.trim() }.toTypedArray())
-    }
+        val dirSeq = msg.split("|").map { i -> i.trim() }.toTypedArray()
+        (0..dirSeq.size - 2).map{i -> directions.addAll(
+            dirSeq[i].split(";").map{ d -> d.trim()}.toTypedArray())}
 
+        val sec = dirSeq.last();
+        val div = sec.substring(1, sec.indexOf("/"))
+        val tot = sec.substring(sec.indexOf("/") + 1, sec.indexOf(")"))
+        return div.equals(tot)
+    }
 }

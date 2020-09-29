@@ -111,16 +111,18 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
             context=ctx
         }
 
-        fun displayDirect(locations: Array<String>, directions: ArrayList<String>) {
+        fun displayDirections(locations: ArrayList<String>, directions: ArrayList<String>) {
             Toast.makeText(context, "COMPANION OBJECT", Toast.LENGTH_LONG)
-//            val locations: Array<String> = arrayOf("a", "b") // placeholder
             val intent = Intent(context, FullDirectionsActivity::class.java)
-
-            // TODO: Update this location value to the proper addresses returned by the server
-            intent.putExtra("locations", locations)
-            // TODO: Pass Array<Direction> as an extra to this activity (use name "directions")
-//            intent.putExtra("directions", Array(20){ i -> Direction(R.drawable.search_icon,  "Turn left at Thomas Street Middle School", "100 m") })
-            intent.putExtra("directions", Array(directions.size){ i -> Direction(R.drawable.search_icon,  directions[i], "100 m") })
+            val locs: Array<String> = arrayOf("a", "b")
+            // Update this location value to the proper addresses returned by the server
+            intent.putExtra("locations", locs)
+            // Pass Array<Direction> as an extra to this activity (use name "directions")
+            intent.putExtra("directions", Array(directions.size / 3){ i -> lit@{
+//                Direction(R.drawable.search_icon,  "Turn left at Thomas Street Middle School", "100 m")
+                if (i % 3 != 0) return@lit
+                Direction(R.drawable.search_icon, directions[i], directions[i + 1])
+            } })
 
             context.startActivity(intent)
         }
