@@ -1,6 +1,7 @@
 package com.example.server.Controller;
 
 import com.example.server.Model.Sms;
+import com.example.server.UserRecord;
 import com.google.maps.errors.ApiException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -42,27 +43,37 @@ public class SmsController {
     @ResponseBody
     public String receiveMessage(HttpServletRequest request) throws InterruptedException, ApiException, IOException {
         String msg = request.getParameter("Body");
-        String response;
-        if (msg.contains("Hi")) {
-            response = "Hello. Please message back your current location and the destination. " +
-                    "i.e. from [location] to [location]";
-        } else if (msg.contains("from") && msg.contains("to")) { // parse locations
-            int index1 = msg.indexOf("from") + 5;
-            int index2 = msg.indexOf(" to ") + 4;
-            String origin = msg.substring(index1, index2);
-            String destination = msg.substring(index2);
-            String mode = "driving"; //change to receive message
-            GoogleMapAPI googleMapAPI = new GoogleMapAPI();
-            ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
+        String from = request.getParameter("From");
 
-            Sms sms = new Sms("+15197816145");
-            for (int i = 0; i < directions.size() - 1; ++ i) {
-                sms.setMessage(directions.get(i));
-                sms.sendMessage();
+        String response="Please register your phone number with our service";
+
+        Error: {
+            // check if user registered
+            if (!UserRecord.isValidUser(from)) {
+                break Error;
             }
-            return directions.get(directions.size() - 1);
-        } else {
-            response = "Failed to read your location request";
+
+            if (msg.contains("Hi")) {
+                response = "Hello. Please message back your current location and the destination. " +
+                        "i.e. from [location] to [location]";
+            } else if (msg.contains("from") && msg.contains("to")) { // parse locations
+                int index1 = msg.indexOf("from") + 5;
+                int index2 = msg.indexOf(" to ") + 4;
+                String origin = msg.substring(index1, index2);
+                String destination = msg.substring(index2);
+                String mode = "driving"; //change to receive message
+                GoogleMapAPI googleMapAPI = new GoogleMapAPI();
+                ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
+
+                Sms sms = new Sms("+15197816145");
+                for (int i = 0; i < directions.size() - 1; ++i) {
+                    sms.setMessage(directions.get(i));
+                    sms.sendMessage();
+                }
+                return directions.get(directions.size() - 1);
+            } else {
+                response = "Failed to read your location request";
+            }
         }
 //        Body body = new Body.Builder(response).build();
 //        com.twilio.twiml.messaging.Message message = new com.twilio.twiml.messaging.Message
