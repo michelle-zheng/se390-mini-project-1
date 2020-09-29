@@ -7,8 +7,8 @@ import android.telephony.SmsMessage
 import android.widget.Toast
 
 class SmsReceiver : BroadcastReceiver() {
-    private lateinit var locations: ArrayList<String>
-    private lateinit var directions: ArrayList<String>
+    private var locations = arrayListOf<String>()
+    private var directions= arrayListOf<String>()
 
     private final val pdu_type = "pdus"
 
@@ -30,7 +30,7 @@ class SmsReceiver : BroadcastReceiver() {
             }
         }
 
-        if (!receiveAll && context != null) {
+        if (receiveAll) {
             SearchActivity.displayDirections(locations, directions)
         }
     }
