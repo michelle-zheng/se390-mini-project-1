@@ -44,10 +44,10 @@ public class GoogleMapAPI {
         DirectionsLeg[] legs = directionsResult.routes[0].legs;
 
         ArrayList<String> result = new ArrayList<>();
-        String address = String.format("%s",legs[0].startAddress);
+        String address = String.format("%s; %s", legs[0].startAddress,legs[0].endAddress);
         String summary = String.format("; %s; %s", legs[0].distance,legs[0].duration);
         for(int i =1; i < legs.length; i ++){
-            address += String.format("; %s",legs[i].startAddress);
+            address += String.format("; %s",legs[i].endAddress);
             summary += String.format("; %s; %s",legs[i].distance,legs[i].duration);
         }
         result.add(address+summary);
