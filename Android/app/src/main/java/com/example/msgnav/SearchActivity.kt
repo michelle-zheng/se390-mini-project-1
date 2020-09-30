@@ -97,8 +97,8 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
 
         var mode: String
         when (transportModeRadioGroup.checkedRadioButtonId) {
-            R.id.search_walking_radio_button -> mode = "D"
-            else -> mode = "W"
+            R.id.search_walking_radio_button -> mode = "W"
+            else -> mode = "D"
         }
 
         val locations: Array<String> = viewAdapter.getItems()
