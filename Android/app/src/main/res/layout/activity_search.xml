@@ -44,5 +44,25 @@
         android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"/>
+
+    <Button
+        android:id="@+id/search_current_location_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:paddingVertical="20dp"
+        android:backgroundTint="@color/white"
+        android:stateListAnimator="@null"
+        android:textSize="@dimen/text_size_body"
+        android:textColor="@android:color/black"
+        android:textAlignment="viewStart"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/current_location"
+        android:textAllCaps="false"
+        android:drawableStart="@drawable/my_location_icon"
+        android:drawableTint="@color/colorPrimary"
+        android:drawablePadding="10dp"
+        android:onClick="onCurrentLocationButtonClick"/>
 </LinearLayout>

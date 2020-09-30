@@ -14,6 +14,8 @@ class SearchRecyclerViewAdapter(private val context: Context, private val data: 
         fun onDataChanged(data: Array<String>)
     }
 
+    var isInitialized: Boolean = false
+
     class ViewHolder(val editText: EditText) : RecyclerView.ViewHolder(editText)
 
     override fun onCreateViewHolder(parent: ViewGroup,
@@ -25,16 +27,19 @@ class SearchRecyclerViewAdapter(private val context: Context, private val data: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.editText.setText(data[position])
+
         if (position == 0) {
-            holder.editText.requestFocus()
+            if (!isInitialized) {
+                holder.editText.requestFocus()
+                isInitialized = true;
+            }
             holder.editText.hint = "Start"
             holder.editText.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.trip_origin_icon), null, null, null)
         } else {
             holder.editText.hint = "Destination"
             holder.editText.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.trip_destination_icon), null, null, null)
         }
-
-        holder.editText.setText(data[position])
 
         holder.editText.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -44,7 +49,7 @@ class SearchRecyclerViewAdapter(private val context: Context, private val data: 
                 // no-op
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                data[position] = s.toString()
+                data[holder.adapterPosition] = s.toString()
                 listener.onDataChanged(data)
             }
         })
@@ -55,5 +60,12 @@ class SearchRecyclerViewAdapter(private val context: Context, private val data: 
 
     fun getItems(): Array<String> {
         return data
+    }
+
+    fun onCurrentLocationButtonClick(position: Int) {
+        data[position] = "Current Location"
+        notifyItemChanged(position)
+
+        listener.onDataChanged(data)
     }
 }

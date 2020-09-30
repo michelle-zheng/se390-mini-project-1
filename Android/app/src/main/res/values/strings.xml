@@ -3,4 +3,5 @@
     <string name="home_search_text">Where are you going?</string>
     <string name="app_title">MsgNav</string>
     <string name="done">Done</string>
+    <string name="current_location">Current Location</string>
 </resources>
