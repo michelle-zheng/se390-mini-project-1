@@ -25,21 +25,22 @@ class SmsReceiver : BroadcastReceiver() {
                 val currMsg = SmsMessage.createFromPdu(pdus as ByteArray, format)
                 val phoneNumber = currMsg.getDisplayOriginatingAddress();
                 val msgBody = currMsg.getDisplayMessageBody();
-                receiveAll = parseDirection(msgBody)
+                receiveAll = parseDirection(context,msgBody)
                 Toast.makeText(context, phoneNumber + ": " + msgBody, Toast.LENGTH_LONG).show()
             }
         }
 
         if (receiveAll) {
             //locations = Array<String> = arrayOf("c", "b")
-//            val directions = Array(20) { Direction(R.drawable.search_icon, "temp", "100m") }
+            //val directions = Array(20) { Direction(R.drawable.search_icon, "temp", "100m") }
             SearchActivity.displayDirections(locations.toTypedArray(), directions.toTypedArray())
         }
     }
 
-    private fun parseDirection(msg: String): Boolean {
+    private fun parseDirection(context: Context, message: String): Boolean {
+        val msg = message.replace("Sent from your Twilio trial account -","\r")
         if (locations.isEmpty()) {
-            locations.addAll(msg.split(";").map { i -> i.trim() }.toTypedArray())
+            locations= ArrayList(ArrayList(msg.split(";").map { i -> i.trim() }).subList(0,2))
             return false;
         }
         var directionString =arrayListOf<String>()
@@ -48,7 +49,7 @@ class SmsReceiver : BroadcastReceiver() {
             dirSeq[i].split(";").map{ d -> d.trim()}.toTypedArray())}
         
         for(i in 0 until directionString.size step 3){
-            directions.add(Direction(R.drawable.search_icon, directionString[i], directionString[i + 1]))
+            directions.add(Direction(getIcon(context, directionString[i]), directionString[i], directionString[i + 1]))
         }
 
         val sec = dirSeq.last();
@@ -56,5 +57,17 @@ class SmsReceiver : BroadcastReceiver() {
         val tot = sec.substring(sec.indexOf("/") + 1, sec.indexOf(")"))
 
         return div.equals(tot)
+    }
+
+    private fun getIcon(context: Context, directionString:String): Int{
+        var id =0;
+        if(directionString.contains("left", ignoreCase = true)){
+            id = R.drawable.ic_arrow_right
+        }else if (directionString.contains("right", ignoreCase = true)){
+            id = R.drawable.ic_arrow_left
+        }else{
+            id = R.drawable.ic_arrow_forward
+        }
+        return id
     }
 }

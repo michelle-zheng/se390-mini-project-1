@@ -46,7 +46,6 @@ public class SmsController {
         String from = request.getParameter("From");
 
         String response="Please register your phone number with our service";
-
         Error: {
             // check if user registered
             if (!UserRecord.isValidUser(from)) {
@@ -65,7 +64,7 @@ public class SmsController {
                 GoogleMapAPI googleMapAPI = new GoogleMapAPI();
                 ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
 
-                Sms sms = new Sms("+15197816145");
+                Sms sms = new Sms(from);
                 for (int i = 0; i < directions.size() - 1; ++i) {
                     sms.setMessage(directions.get(i));
                     sms.sendMessage();
