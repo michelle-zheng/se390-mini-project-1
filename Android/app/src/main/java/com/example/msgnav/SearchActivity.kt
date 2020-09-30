@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.Toast
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ import java.util.*
 
 
 class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListener {
+    private lateinit var transportModeRadioGroup: RadioGroup
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: SearchRecyclerViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -40,6 +43,10 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setContext(this)
+
+        transportModeRadioGroup = findViewById(R.id.search_radio_group)
+        transportModeRadioGroup.check(R.id.search_driving_radio_button)
+
         val data: Array<String> = intent.getStringArrayExtra("locations") ?: Array(2) { i -> ""}
 
         viewManager = LinearLayoutManager(this)
@@ -54,6 +61,7 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         doneButton = findViewById(R.id.search_done_button)
         currentLocationButton = findViewById(R.id.search_current_location_button)
         updateDoneButton(data)
+        updateCurrentLocationButton(data)
 
         val filter = IntentFilter().apply {
             addAction("android.provider.Telephony.SMS_RECEIVED")
@@ -84,10 +92,14 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
     }
 
     fun onDoneButtonClick(view: View) {
-        // TODO: Add Mode to the SMS Message
-
         val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+
+        var mode: String
+        when (transportModeRadioGroup.checkedRadioButtonId) {
+            R.id.search_walking_radio_button -> mode = "D"
+            else -> mode = "W"
+        }
 
         val locations: Array<String> = viewAdapter.getItems()
 
@@ -104,13 +116,13 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
                 .addOnSuccessListener { location : Location? ->
                     if (location != null) {
                         locations[currentLocationIndex] = location.latitude.toString() + "," + location.longitude.toString()
-                        sendSms(locations)
+                        sendSms(locations, mode)
                     } else {
                         Toast.makeText(this, "Location could not be fetched", Toast.LENGTH_SHORT).show()
                     }
                 }
         } else {
-            sendSms(locations)
+            sendSms(locations, mode)
         }
     }
 
@@ -160,13 +172,13 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         currentLocationButton.visibility = VISIBLE
     }
 
-    private fun sendSms(data: Array<String>) {
+    private fun sendSms(data: Array<String>, mode: String) {
         try {
             SmsManager.getDefault().sendTextMessage(
 //                "+13852090925",
                 "+16478775992",
                 null,
-                "from " + data[0] + " to " + data[1],
+                "from " + data[0] + " to " + data[1] + " mode " + mode,
                 null,
                 null
             )

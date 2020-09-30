@@ -40,11 +40,46 @@
             android:onClick="onDoneButtonClick"/>
     </LinearLayout>
 
+    <RadioGroup
+        android:id="@+id/search_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/search_driving_radio_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-light"
+            android:background="@drawable/radio_button_left"
+            android:button="@null"
+            android:text="@string/driving"/>
+
+        <RadioButton
+            android:id="@+id/search_walking_radio_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="6dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-light"
+            android:button="@null"
+            android:background="@drawable/radio_button_right"
+            android:text="@string/walking"/>
+    </RadioGroup>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"/>
 
     <Button
