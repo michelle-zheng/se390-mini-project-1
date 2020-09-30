@@ -22,8 +22,8 @@ public class GoogleMapAPI {
     static private int stringSizeLimit = 140;
     static private HashMap<String, TravelMode>  stringToMode=  new HashMap<String, TravelMode>(){
         {
-            put("walk", TravelMode.WALKING);
-            put("drive", TravelMode.DRIVING);
+            put("W", TravelMode.WALKING);
+            put("D", TravelMode.DRIVING);
         }
     };
     @Autowired
@@ -77,7 +77,4 @@ public class GoogleMapAPI {
     public ArrayList<String> getDirections(String origin, String destination, String mode) throws InterruptedException, ApiException, IOException {
         return getDirections(origin, destination, mode,  new String[0]);
     }
-
-
-
 }

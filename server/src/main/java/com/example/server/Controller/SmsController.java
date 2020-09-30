@@ -58,9 +58,10 @@ public class SmsController {
             } else if (msg.contains("from") && msg.contains("to")) { // parse locations
                 int index1 = msg.indexOf("from") + 5;
                 int index2 = msg.indexOf(" to ") + 4;
+                int index3 = msg.indexOf("mode ") + 4;
                 String origin = msg.substring(index1, index2);
-                String destination = msg.substring(index2);
-                String mode = "driving"; //change to receive message
+                String destination = msg.substring(index2,index3);
+                String mode = msg.substring(index3);
                 GoogleMapAPI googleMapAPI = new GoogleMapAPI();
                 ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
 
