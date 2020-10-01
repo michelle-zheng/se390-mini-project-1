@@ -12,7 +12,8 @@ import java.io.IOException
 
 class SignupActivity: Activity() {
     // api call client
-    private val client = OkHttpClient();
+    private val client = OkHttpClient()
+    private val registerApi = "localhost:8080/register"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,8 @@ class SignupActivity: Activity() {
     fun onClickRegisterButton(view: View) {
         // TODO: HIT THE API TO REGISTER
         val phoneNumber: TextView = findViewById(R.id.pnumber);
-        phoneNumber.text;
+        // TODO: add format check before api call
+        run(registerApi+"?number="+phoneNumber.text)
 
         getSharedPreferences("shared_prefs", Context.MODE_PRIVATE).edit {
             putBoolean("is_registered", true)
