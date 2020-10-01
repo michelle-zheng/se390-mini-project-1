@@ -95,7 +95,7 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
 
-        var mode: String
+        val mode: String
         when (transportModeRadioGroup.checkedRadioButtonId) {
             R.id.search_walking_radio_button -> mode = "W"
             else -> mode = "D"
