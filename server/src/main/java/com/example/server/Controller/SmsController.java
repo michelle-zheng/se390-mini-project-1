@@ -57,15 +57,17 @@ public class SmsController {
                         "i.e. from [location] to [location]";
             } else if (msg.contains("from") && msg.contains("to")) { // parse locations
                 int index1 = msg.indexOf("from") + 5;
-                int index2 = msg.indexOf(" to ") + 4;
-                int index3 = msg.indexOf("mode ") + 4;
+                int index2 = msg.indexOf(" to ");
+                int index3 = msg.indexOf(" mode ");
                 String origin = msg.substring(index1, index2);
-                String destination = msg.substring(index2,index3);
-                String mode = msg.substring(index3);
+                String destination = msg.substring(index2+4,index3);
+                String mode = msg.substring(index3+6);
                 GoogleMapAPI googleMapAPI = new GoogleMapAPI();
                 ArrayList<String> directions = googleMapAPI.getDirections(origin, destination, mode);
-
                 Sms sms = new Sms(from);
+                if(directions.size()>10){
+                    return "Direction Results Too Long";
+                }
                 for (int i = 0; i < directions.size() - 1; ++i) {
                     sms.setMessage(directions.get(i));
                     sms.sendMessage();
