@@ -61,9 +61,9 @@ class SmsReceiver : BroadcastReceiver() {
 
     private fun getIcon(context: Context, directionString:String): Int{
         var id =0;
-        if(directionString.contains("left", ignoreCase = true)){
+        if(directionString.contains("right", ignoreCase = true)){
             id = R.drawable.ic_arrow_right
-        }else if (directionString.contains("right", ignoreCase = true)){
+        }else if (directionString.contains("left", ignoreCase = true)){
             id = R.drawable.ic_arrow_left
         }else{
             id = R.drawable.ic_arrow_forward
