@@ -24,29 +24,30 @@ class SignupActivity: Activity() {
     }
 
     fun runPost(url: String) {
-        val url = registerApi.toHttpUrl()
+        val body = "".toRequestBody()
         val request = Request.Builder()
-            .url(url)
+            .url(url.toHttpUrl())
+            .post(body)
             .build()
 
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {}
-//            override fun onResponse(call: Call, response: Response) = println(response.body?.string())
-//        })
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-            for ((name, value) in response.headers) {
-                println("$name: $value")
-            }
-        }
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) = println(response.body?.string())
+        })
+//        client.newCall(request).execute().use { response ->
+//            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+//
+//            for ((name, value) in response.headers) {
+//                println("$name: $value")
+//            }
+//        }
     }
 
     fun onClickRegisterButton(view: View) {
         // TODO: HIT THE API TO REGISTER
         val phoneNumber: TextView = findViewById(R.id.pnumber);
         // TODO: add format check before api call
-        runPost("$registerApi?number=$phoneNumber")
+        runPost("$registerApi?number=${phoneNumber.text}")
 
         getSharedPreferences("shared_prefs", Context.MODE_PRIVATE).edit {
             putBoolean("is_registered", true)
