@@ -25,10 +25,8 @@ class SignupActivity: Activity() {
 
     fun runPost(url: String) {
         val url = registerApi.toHttpUrl()
-        val body = "".toRequestBody()
         val request = Request.Builder()
             .url(url)
-            .post(body)
             .build()
 
 //        client.newCall(request).enqueue(object : Callback {
@@ -60,3 +58,4 @@ class SignupActivity: Activity() {
         finish()
     }
 }
+
