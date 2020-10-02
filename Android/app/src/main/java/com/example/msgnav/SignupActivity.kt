@@ -8,7 +8,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
 import okhttp3.*
-import okio.BufferedSink
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
@@ -23,17 +24,9 @@ class SignupActivity: Activity() {
     }
 
     fun runPost(url: String) {
-        val body = object : RequestBody(){
-            override fun contentType(): MediaType? {
-                TODO("Not needed")
-            }
-
-            override fun writeTo(sink: BufferedSink) {
-                TODO("Not needed")
-            }
-        }
+        val body = "".toRequestBody()
         val request = Request.Builder()
-            .url(url)
+            .url(url.toHttpUrl())
             .post(body)
             .build()
 
@@ -41,13 +34,20 @@ class SignupActivity: Activity() {
             override fun onFailure(call: Call, e: IOException) {}
             override fun onResponse(call: Call, response: Response) = println(response.body?.string())
         })
+//        client.newCall(request).execute().use { response ->
+//            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+//
+//            for ((name, value) in response.headers) {
+//                println("$name: $value")
+//            }
+//        }
     }
 
     fun onClickRegisterButton(view: View) {
         // TODO: HIT THE API TO REGISTER
         val phoneNumber: TextView = findViewById(R.id.pnumber);
         // TODO: add format check before api call
-        runPost("$registerApi?number=$phoneNumber")
+        runPost("$registerApi?number=${phoneNumber.text}")
 
         getSharedPreferences("shared_prefs", Context.MODE_PRIVATE).edit {
             putBoolean("is_registered", true)
@@ -59,3 +59,4 @@ class SignupActivity: Activity() {
         finish()
     }
 }
+
