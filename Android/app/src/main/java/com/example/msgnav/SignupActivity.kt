@@ -8,7 +8,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
 import okhttp3.*
-import okio.BufferedSink
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
@@ -23,15 +24,8 @@ class SignupActivity: Activity() {
     }
 
     fun runPost(url: String) {
-        val body = object : RequestBody(){
-            override fun contentType(): MediaType? {
-                TODO("Not needed")
-            }
-
-            override fun writeTo(sink: BufferedSink) {
-                TODO("Not needed")
-            }
-        }
+        val url = registerApi.toHttpUrl()
+        val body = "".toRequestBody()
         val request = Request.Builder()
             .url(url)
             .post(body)
