@@ -175,8 +175,8 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
     private fun sendSms(data: Array<String>, mode: String) {
         try {
             SmsManager.getDefault().sendTextMessage(
-//                "+13852090925",
-                "+16478775992",
+                "+13852090925",
+//                "+16478775992",
                 null,
                 "from " + data[0] + " to " + data[1] + " mode " + mode,
                 null,
@@ -198,7 +198,6 @@ class SearchActivity : Activity(), SearchRecyclerViewAdapter.OnDataChangedListen
         }
 
         fun displayDirections(locations: Array<String>, directions: Array<Direction>) {
-            Toast.makeText(context, "COMPANION OBJECT", Toast.LENGTH_LONG)
             val intent = Intent(context, FullDirectionsActivity::class.java)
             intent.putExtra("locations", locations)
             intent.putExtra("directions",  directions)
