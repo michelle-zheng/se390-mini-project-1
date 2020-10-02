@@ -19,7 +19,7 @@ import java.util.HashMap;
 @RestController
 public class GoogleMapAPI {
     static private Config instance = Config.getInstance();
-    static private int stringSizeLimit = 140;
+    static private int stringSizeLimit = 135;
     static private HashMap<String, TravelMode>  stringToMode=  new HashMap<String, TravelMode>(){
         {
             put("W", TravelMode.WALKING);
