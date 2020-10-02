@@ -31,10 +31,17 @@ class SignupActivity: Activity() {
             .post(body)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) = println(response.body?.string())
-        })
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {}
+//            override fun onResponse(call: Call, response: Response) = println(response.body?.string())
+//        })
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            for ((name, value) in response.headers) {
+                println("$name: $value")
+            }
+        }
     }
 
     fun onClickRegisterButton(view: View) {
