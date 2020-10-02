@@ -8,21 +8,33 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
 import okhttp3.*
+import okio.BufferedSink
 import java.io.IOException
+
 
 class SignupActivity: Activity() {
     // api call client
     private val client = OkHttpClient()
-    private val registerApi = "localhost:8080/register"
+    private val registerApi = "http://localhost:8080/register"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
     }
 
-    fun run(url: String) {
+    fun runPost(url: String) {
+        val body = object : RequestBody(){
+            override fun contentType(): MediaType? {
+                TODO("Not needed")
+            }
+
+            override fun writeTo(sink: BufferedSink) {
+                TODO("Not needed")
+            }
+        }
         val request = Request.Builder()
             .url(url)
+            .post(body)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -35,7 +47,7 @@ class SignupActivity: Activity() {
         // TODO: HIT THE API TO REGISTER
         val phoneNumber: TextView = findViewById(R.id.pnumber);
         // TODO: add format check before api call
-        run(registerApi+"?number="+phoneNumber.text)
+        runPost("$registerApi?number=$phoneNumber")
 
         getSharedPreferences("shared_prefs", Context.MODE_PRIVATE).edit {
             putBoolean("is_registered", true)
