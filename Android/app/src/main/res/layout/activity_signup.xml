@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="30dp"
+    android:background="@color/white"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="casual"
+        android:text="@string/app_title"/>
+
+    <EditText
+        android:id="@+id/pnumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_edit_text_background"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/enter_your_phone_number"
+        android:inputType="phone"
+        android:padding="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_body" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/rounded_edit_text_background"
+        android:backgroundTint="@color/colorPrimary"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/text_size_body"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:text="@string/register"
+        android:onClick="onClickRegisterButton"/>
+</LinearLayout>

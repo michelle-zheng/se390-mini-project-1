@@ -2,9 +2,11 @@ package com.example.msgnav
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +50,7 @@ class FullDirectionsActivity : Activity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        viewAdapter.setData(directions)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

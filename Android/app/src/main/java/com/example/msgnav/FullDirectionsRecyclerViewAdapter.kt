@@ -30,12 +30,9 @@ class FullDirectionsRecyclerViewAdapter(private val context: Context, private va
         val dividerView: View = holder.view.findViewById(R.id.direction_cell_divider_view)
 
         iconImageView.setImageDrawable(context.getDrawable(data[position].icon))
-
         directionTextView.text = data[position].directionText
-
         distanceTextView.text = data[position].distance
         distanceTextView.visibility = if (data[position].distance.isEmpty()) GONE else VISIBLE
-
         dividerView.visibility = if (position == data.size - 1) GONE else VISIBLE
     }
 

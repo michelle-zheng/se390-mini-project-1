@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_edit_text_background"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
     android:padding="@dimen/edit_text_padding"
     android:fontFamily="sans-serif-light"
     android:textSize="@dimen/text_size_body"
